@@ -1,0 +1,43 @@
+---
+import { projects } from "../../data/landing-content";
+---
+
+<section id="projects" class="section projects dotted-bg">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Selected Works</p>
+      <h2>Featured Projects</h2>
+    </div>
+
+    <div class="project-list">
+      {
+        projects.map((project, index) => (
+          <article class={`project-card ${index % 2 === 1 ? "reverse" : ""}`}>
+            <div class="project-image-wrap">
+              <img
+                src={project.imageUrl}
+                alt={project.title}
+                loading="lazy"
+                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4='"
+              />
+            </div>
+            <div class="project-content">
+              <p class="category">{project.category}</p>
+              <h3>{project.title}</h3>
+              <p class="description">{project.description}</p>
+              <ul class="tags">
+                {project.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              <div class="project-links">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" class="button-primary">
+                  View Project
+                </a>
+                <a href={project.caseStudyLink} class="text-link">Case Study</a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

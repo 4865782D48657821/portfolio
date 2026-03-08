@@ -1,0 +1,35 @@
+---
+import { footerLinks, site } from "../../data/landing-content";
+const currentYear = new Date().getFullYear();
+---
+
+<footer id="contact" class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>{site.title}</h3>
+      <p>{site.subtitle}</p>
+    </div>
+
+    <div class="footer-links">
+      {
+        Object.entries(footerLinks).map(([category, links]) => (
+          <div>
+            <h4>{category}</h4>
+            <ul>
+              {links.map((link) => <li><a href={link.href}>{link.name}</a></li>)}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© {currentYear} All rights reserved.</p>
+    <div>
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">RSS</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,40 @@
+---
+import { posts } from "../../data/landing-content";
+---
+
+<section id="blog" class="section posts">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow">Recent Writing</p>
+      <h2>Latest Posts</h2>
+    </div>
+
+    <div class="post-grid">
+      {
+        posts.map((post) => (
+          <article class="post-card">
+            <div class="post-image-wrap">
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                loading="lazy"
+                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODgiIGhlaWdodD0iODgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBvcGFjaXR5PSIuMyIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIzLjciPjxyZWN0IHg9IjE2IiB5PSIxNiIgd2lkdGg9IjU2IiBoZWlnaHQ9IjU2IiByeD0iNiIvPjxwYXRoIGQ9Im0xNiA1OCAxNi0xOCAzMiAzMiIvPjxjaXJjbGUgY3g9IjUzIiBjeT0iMzUiIHI9IjciLz48L3N2Zz4='"
+              />
+              <span class="post-category">{post.category}</span>
+            </div>
+            <div class="post-content">
+              <p class="meta">
+                <time>{post.date}</time>
+                <span>·</span>
+                <span>{post.readTime} read</span>
+              </p>
+              <h3>{post.title}</h3>
+              <p>{post.excerpt}</p>
+              <a href={post.href} class="text-link">Read More</a>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

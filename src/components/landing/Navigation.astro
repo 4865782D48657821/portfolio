@@ -1,0 +1,87 @@
+---
+import { navLinks, site } from "../../data/landing-content";
+---
+
+<nav class="site-nav" data-nav>
+  <div class="container nav-inner">
+    <a href="#home" class="brand" data-scroll>{site.title}</a>
+
+    <ul class="nav-links">
+      {
+        navLinks.map((link) => (
+          <li>
+            <a href={link.href} data-scroll data-section-link={link.href.slice(1)}>
+              {link.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <button class="menu-toggle" type="button" aria-label="Toggle menu" data-menu-toggle>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" data-mobile-menu>
+    {
+      navLinks.map((link) => (
+        <a href={link.href} data-scroll data-section-link={link.href.slice(1)}>
+          {link.name}
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<script is:inline>
+  const nav = document.querySelector("[data-nav]");
+  const mobileMenu = nav?.querySelector("[data-mobile-menu]");
+  const menuToggle = nav?.querySelector("[data-menu-toggle]");
+  const sectionLinks = nav?.querySelectorAll("[data-section-link]");
+
+  const setActiveSection = () => {
+    const sections = ["home", "blog", "projects", "about", "contact"];
+    let active = "home";
+
+    for (const section of sections) {
+      const el = document.getElementById(section);
+      if (!el) continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 100 && rect.bottom >= 100) {
+        active = section;
+        break;
+      }
+    }
+
+    sectionLinks?.forEach((link) => {
+      const target = link.getAttribute("data-section-link");
+      link.classList.toggle("is-active", target === active);
+    });
+  };
+
+  menuToggle?.addEventListener("click", () => {
+    mobileMenu?.classList.toggle("is-open");
+  });
+
+  nav?.querySelectorAll("[data-scroll]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const href = link.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+
+      event.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+      mobileMenu?.classList.remove("is-open");
+    });
+  });
+
+  const onScroll = () => {
+    nav?.classList.toggle("is-scrolled", window.scrollY > 20);
+    setActiveSection();
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+</script>

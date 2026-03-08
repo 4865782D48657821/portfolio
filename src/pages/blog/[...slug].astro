@@ -1,21 +1,53 @@
 ---
-import { type CollectionEntry, getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
-import { render } from 'astro:content';
+import { blogPosts, type BlogPost as BlogPostData } from '../../data/blog-posts';
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
+	return Object.values(blogPosts).map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
 	}));
 }
-type Props = CollectionEntry<'blog'>;
-
-const post = Astro.props;
-const { Content } = await render(post);
+type Props = { post: BlogPostData };
+const { post } = Astro.props as Props;
 ---
 
-<BlogPost {...post.data}>
-	<Content />
+<BlogPost
+	title={post.title}
+	description={post.excerpt}
+	pubDate={new Date(post.date)}
+	heroImage={post.imageUrl}
+	category={post.category}
+	subtitle={post.subtitle}
+	readTime={post.readTime}
+	author={post.author}
+>
+	{
+		post.content.map((block) => {
+			if (block.type === 'paragraph') {
+				return <p>{block.content}</p>;
+			}
+			if (block.type === 'heading' && block.level === 2) {
+				return <h2>{block.content}</h2>;
+			}
+			if (block.type === 'quote') {
+				return (
+					<blockquote>
+						<p>{block.content}</p>
+					</blockquote>
+				);
+			}
+			if (block.type === 'list') {
+				return (
+					<ul>
+						{block.items?.map((item) => <li>{item}</li>)}
+					</ul>
+				);
+			}
+			if (block.type === 'image' && block.content) {
+				return <img src={block.content} alt={post.title} loading="lazy" />;
+			}
+			return null;
+		})
+	}
 </BlogPost>

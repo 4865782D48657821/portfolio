@@ -1,83 +1,386 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import FormattedDate from '../components/FormattedDate.astro';
+import BlogNavigation from '../components/landing/BlogNavigation.astro';
+import Footer from '../components/landing/Footer.astro';
+import '../styles/landing.css';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const {
+	title,
+	description,
+	pubDate,
+	heroImage,
+	category = 'Essay',
+	subtitle,
+	readTime,
+	author,
+} = Astro.props as Props & {
+	category?: string;
+	subtitle?: string;
+	readTime?: string;
+	author?: { name: string; bio?: string };
+};
+
+const fallbackAuthor = { name: 'JM', bio: 'Software engineer and writer.' };
+const authorInfo = author ?? fallbackAuthor;
+const prettyDate = new Intl.DateTimeFormat('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+}).format(pubDate);
+const derivedReadTime = readTime ?? `${Math.max(3, Math.ceil((description?.split(/\\s+/).length ?? 80) / 18))} min`;
+const pageUrl = Astro.url.href;
+const encodedUrl = encodeURIComponent(pageUrl);
+const encodedTitle = encodeURIComponent(title);
 ---
 
 <html lang="en">
 	<head>
 		<BaseHead title={title} description={description} />
 		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
+			@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:wght@400;600&display=swap");
+
+			:root {
+				--paper: #f8f9f1;
+				--text: #1a1a1b;
+				--muted: #8c8c8e;
+				--forest: #2d4f40;
+				--accent: #c5a059;
+				--signal: #e63946;
+			}
+
+			body {
+				font-family: Inter, sans-serif;
+				background: #fff;
+				color: var(--text);
 				margin: 0;
 			}
-			.hero-image {
+
+			main {
 				width: 100%;
+				max-width: 100%;
+				margin: 0;
+				padding: 0;
 			}
-			.hero-image img {
-				display: block;
+
+			.article {
+				padding-top: 4rem;
+			}
+
+			.header-wrap {
+				background: var(--paper);
+				padding: 5rem 1.5rem 4rem;
+			}
+
+			.header-inner {
+				max-width: 64rem;
 				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
 			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
+
+			.breadcrumb {
+				display: inline-flex;
+				gap: 0.5rem;
+				align-items: center;
+				font-size: 0.875rem;
+				color: var(--muted);
+				margin-bottom: 2rem;
+				text-decoration: none;
 			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
+
+			.breadcrumb:hover {
+				color: var(--accent);
 			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
+
+			.category {
+				display: inline-block;
+				padding: 0.4rem 0.8rem;
+				font-size: 0.72rem;
+				font-weight: 600;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+				border-radius: 6px;
+				margin-bottom: 1.5rem;
+				background: rgb(45 79 64 / 10%);
+				color: var(--forest);
 			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
+
+			h1 {
+				font-family: "Crimson Pro", serif;
+				font-size: clamp(2.25rem, 5vw, 4rem);
+				line-height: 1.05;
+				margin: 0 0 1rem;
+				letter-spacing: -0.02em;
 			}
-			.last-updated-on {
+
+			.subtitle {
+				font-size: clamp(1.1rem, 2vw, 1.6rem);
+				line-height: 1.6;
+				color: var(--muted);
+				margin: 0 0 2rem;
+			}
+
+			.meta {
+				display: flex;
+				gap: 1rem;
+				flex-wrap: wrap;
+				align-items: center;
+				font-size: 0.9rem;
+				color: var(--muted);
+				padding-bottom: 1.75rem;
+				border-bottom: 1px solid rgb(197 160 89 / 25%);
+			}
+
+			.dot {
+				color: var(--accent);
+			}
+
+			.image-wrap {
+				max-width: 84rem;
+				margin: -2rem auto 4rem;
+				padding: 0 1.5rem;
+			}
+
+			.image-wrap img {
+				display: block;
+				width: 100%;
+				height: auto;
+				aspect-ratio: 16 / 8;
+				object-fit: cover;
+				border-radius: 10px;
+				border: 1px solid rgb(197 160 89 / 25%);
+				box-shadow: 0 18px 35px rgb(0 0 0 / 10%);
+			}
+
+			.article-content {
+				max-width: 48rem;
+				margin: 0 auto;
+				padding: 0 1.5rem 5rem;
+			}
+
+			.article-content :global(p) {
+				font-size: 1.1rem;
+				line-height: 1.85;
+				margin: 0 0 1.5rem;
+			}
+
+			.article-content :global(h2) {
+				font-family: "Crimson Pro", serif;
+				font-size: 2rem;
+				line-height: 1.15;
+				letter-spacing: -0.02em;
+				margin: 2.75rem 0 1rem;
+			}
+
+			.article-content :global(blockquote) {
+				border-left: 4px solid var(--accent);
+				margin: 2rem 0;
+				padding: 0.8rem 1.25rem;
+				background: var(--paper);
+				border-radius: 0 8px 8px 0;
+			}
+
+			.article-content :global(blockquote p) {
+				font-family: "Crimson Pro", serif;
+				font-size: 1.35rem;
 				font-style: italic;
+				line-height: 1.55;
+				color: var(--forest);
+				margin: 0;
+			}
+
+			.article-content :global(ul),
+			.article-content :global(ol) {
+				margin: 1.2rem 0 1.5rem 1.2rem;
+				padding: 0;
+			}
+
+			.article-content :global(li) {
+				margin-bottom: 0.7rem;
+				font-size: 1.1rem;
+				line-height: 1.75;
+			}
+
+			.article-footer {
+				margin-top: 3rem;
+				padding-top: 2rem;
+				border-top: 1px solid rgb(197 160 89 / 25%);
+			}
+
+			.author-row {
+				display: flex;
+				gap: 1rem;
+				align-items: flex-start;
+				margin-bottom: 2rem;
+			}
+
+			.author-avatar {
+				width: 4rem;
+				height: 4rem;
+				border-radius: 999px;
+				background: var(--forest);
+				color: #fff;
+				display: grid;
+				place-items: center;
+				font-weight: 600;
+			}
+
+			.author-name {
+				font-size: 1rem;
+				font-weight: 600;
+				margin: 0 0 0.35rem;
+			}
+
+			.author-bio {
+				font-size: 0.92rem;
+				line-height: 1.6;
+				color: var(--muted);
+				margin: 0;
+			}
+
+			.share-row {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				flex-wrap: wrap;
+			}
+
+			.share-row span {
+				font-size: 0.9rem;
+				color: var(--muted);
+			}
+
+			.share-btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 2.5rem;
+				height: 2.5rem;
+				border-radius: 999px;
+				border: 1px solid rgb(197 160 89 / 35%);
+				color: var(--muted);
+				text-decoration: none;
+				transition: 0.2s ease;
+			}
+
+			.share-btn:hover {
+				background: rgb(197 160 89 / 10%);
+				color: var(--accent);
+			}
+
+			.continue {
+				background: var(--paper);
+				padding: 4rem 1.5rem;
+			}
+
+			.continue-inner {
+				max-width: 64rem;
+				margin: 0 auto;
+				text-align: center;
+			}
+
+			.continue h3 {
+				font-family: "Crimson Pro", serif;
+				font-size: clamp(2rem, 3vw, 2.5rem);
+				margin: 0 0 1.5rem;
+			}
+
+			.button {
+				display: inline-flex;
+				align-items: center;
+				gap: 0.5rem;
+				padding: 0.75rem 1.25rem;
+				border-radius: 8px;
+				background: var(--signal);
+				color: #fff;
+				font-weight: 600;
+				text-decoration: none;
+			}
+
+			.button:hover {
+				background: #d32f3c;
+			}
+
+			@media (max-width: 720px) {
+				.article {
+					padding-top: 1rem;
+				}
+
+				.header-wrap {
+					padding-top: 4rem;
+				}
+
+				.image-wrap {
+					margin-top: -1rem;
+					margin-bottom: 2.5rem;
+				}
+
+				.author-row {
+					align-items: center;
+				}
 			}
 		</style>
 	</head>
 
 	<body>
-		<Header />
+		<BlogNavigation />
 		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
-						</div>
+			<article class="article">
+				<header class="header-wrap">
+					<div class="header-inner">
+						<a class="breadcrumb" href="/">
+							<span aria-hidden="true">←</span>
+							<span>Back to Home</span>
+						</a>
+
+						<div class="category">{category}</div>
 						<h1>{title}</h1>
-						<hr />
+						<p class="subtitle">{subtitle ?? description}</p>
+
+						<div class="meta">
+							<time>{prettyDate}</time>
+							<span class="dot">·</span>
+							<span>{derivedReadTime} read</span>
+							<span class="dot">·</span>
+							<span>{authorInfo.name}</span>
+						</div>
 					</div>
+				</header>
+
+				{heroImage && (
+					<div class="image-wrap">
+						<img width={1280} height={640} src={heroImage} alt={title} loading="eager" />
+					</div>
+				)}
+
+				<div class="article-content">
 					<slot />
+
+					<div class="article-footer">
+						<div class="author-row">
+							<div class="author-avatar">{authorInfo.name}</div>
+							<div>
+								<p class="author-name">{authorInfo.name}</p>
+								<p class="author-bio">{authorInfo.bio}</p>
+							</div>
+						</div>
+
+						<div class="share-row">
+							<span>Share:</span>
+							<a class="share-btn" href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`} target="_blank" rel="noopener noreferrer" aria-label="Share on X">𝕏</a>
+							<a class="share-btn" href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn">in</a>
+							<a class="share-btn" href={`mailto:?subject=${encodedTitle}&body=${encodedUrl}`} aria-label="Share by email">@</a>
+						</div>
+					</div>
 				</div>
+
+				<section class="continue">
+					<div class="continue-inner">
+						<h3>Continue Reading</h3>
+						<a class="button" href="/blog/">View All Posts</a>
+					</div>
+				</section>
 			</article>
 		</main>
 		<Footer />

@@ -1,0 +1,173 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import BlogNavigation from "../components/landing/BlogNavigation.astro";
+import Footer from "../components/landing/Footer.astro";
+import "../styles/landing.css";
+import { SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Privacy Policy | ${SITE_TITLE}`}
+      description="Privacy Policy according to GDPR."
+    />
+    <style>
+      .legal-page {
+        padding-top: 4rem;
+        background: #fff;
+      }
+
+      .legal-hero {
+        padding: 5rem 0 3rem;
+        background: linear-gradient(180deg, rgb(45 79 64 / 10%) 0%, rgb(248 249 241 / 65%) 100%);
+        border-bottom: 1px solid rgb(197 160 89 / 20%);
+      }
+
+      .legal-hero .eyebrow {
+        color: var(--forest);
+      }
+
+      .legal-hero p {
+        margin-top: 1rem;
+        max-width: 44rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .legal-content {
+        padding: 3rem 0 6rem;
+      }
+
+      .legal-card {
+        border: 1px solid rgb(197 160 89 / 25%);
+        border-radius: var(--radius);
+        background: #fdfcfb;
+        padding: 2rem;
+      }
+
+      .legal-card h2 {
+        margin-top: 2rem;
+        font-size: 1.35rem;
+      }
+
+      .legal-card h2:first-child {
+        margin-top: 0;
+      }
+
+      .legal-card p,
+      .legal-card li {
+        margin-top: 0.75rem;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+
+      .legal-card ul {
+        margin: 0.5rem 0 0 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <BlogNavigation />
+    <main class="legal-page">
+      <section class="legal-hero">
+        <div class="container">
+          <p class="eyebrow">Legal</p>
+          <h1>Privacy Policy</h1>
+        </div>
+      </section>
+
+      <section class="legal-content">
+        <div class="container">
+          <article class="legal-card">
+            <h2>1. Controller</h2>
+            <p>
+              The controller responsible for data processing on this website is:
+            </p>
+            <p>
+              Max Müller<br />
+              Freiherr-vom-Stein-Straße 12<br />
+              11111 Berlin<br />
+              Germany
+            </p>
+            <p>
+              E-Mail: <a href="mailto:maxmueller@proton.me">maxmueller@proton.me</a>
+            </p>
+
+            <h2>2. Access data (server log files)</h2>
+            <p>
+              When this website is accessed, information is automatically collected by the hosting
+              provider and stored in so-called server log files. This may include:
+            </p>
+            <ul>
+              <li>IP address</li>
+              <li>Date and time of the request</li>
+              <li>Requested page / file</li>
+              <li>Amount of data transferred</li>
+              <li>Browser type and browser version</li>
+              <li>Operating system</li>
+              <li>Referrer URL</li>
+            </ul>
+            <p>
+              This data is used exclusively to ensure trouble-free operation of the website and to
+              improve our offering.
+            </p>
+            <p>The legal basis is Art. 6(1)(f) GDPR.</p>
+
+            <h2>3. Contact</h2>
+            <p>
+              If you contact me by email, your details are stored for the purpose of processing your
+              inquiry and for possible follow-up questions.
+            </p>
+            <p>This data will not be shared without your consent.</p>
+            <p>
+              The legal basis is Art. 6(1)(b) GDPR (pre-contractual communication) and/or
+              Art. 6(1)(f) GDPR.
+            </p>
+
+            <h2>4. Your rights</h2>
+            <p>
+              Within the applicable legal framework, you have the right at any time to:
+            </p>
+            <ul>
+              <li>Access your stored personal data</li>
+              <li>Rectify inaccurate data</li>
+              <li>Delete your data</li>
+              <li>Restrict processing</li>
+              <li>Object to processing</li>
+              <li>Data portability</li>
+            </ul>
+            <p>
+              To exercise these rights, you can contact the address listed above at any time.
+            </p>
+
+            <h2>5. Right to lodge a complaint with a supervisory authority</h2>
+            <p>
+              You have the right to lodge a complaint with a data protection supervisory authority
+              regarding the processing of your personal data.
+            </p>
+            <p>
+              A list of data protection authorities and their contact details can be found at:
+              <br />
+              <a
+                href="https://www.bfdi.bund.de/DE/Service/Anschriften/anschriften_table.html"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://www.bfdi.bund.de/DE/Service/Anschriften/anschriften_table.html
+              </a>
+            </p>
+
+            <h2>6. Changes to this privacy policy</h2>
+            <p>
+              This privacy policy may be updated to reflect current legal requirements or changes to
+              our services.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

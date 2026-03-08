@@ -1,0 +1,117 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import BlogNavigation from "../components/landing/BlogNavigation.astro";
+import Footer from "../components/landing/Footer.astro";
+import "../styles/landing.css";
+import { SITE_TITLE } from "../consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`Legal Notice (Impressum) | ${SITE_TITLE}`}
+      description="Legal notice according to Section 5 TMG."
+    />
+    <style>
+      .legal-page {
+        padding-top: 4rem;
+        background: #fff;
+      }
+
+      .legal-hero {
+        padding: 5rem 0 3rem;
+        background: linear-gradient(180deg, rgb(45 79 64 / 10%) 0%, rgb(248 249 241 / 65%) 100%);
+        border-bottom: 1px solid rgb(197 160 89 / 20%);
+      }
+
+      .legal-hero .eyebrow {
+        color: var(--forest);
+      }
+
+      .legal-hero p {
+        margin-top: 1rem;
+        max-width: 44rem;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .legal-content {
+        padding: 3rem 0 6rem;
+      }
+
+      .legal-card {
+        border: 1px solid rgb(197 160 89 / 25%);
+        border-radius: var(--radius);
+        background: #fdfcfb;
+        padding: 2rem;
+      }
+
+      .legal-card h2 {
+        margin-top: 2rem;
+        font-size: 1.35rem;
+      }
+
+      .legal-card h2:first-child {
+        margin-top: 0;
+      }
+
+      .legal-card p {
+        margin-top: 0.75rem;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+    </style>
+  </head>
+  <body>
+    <BlogNavigation />
+    <main class="legal-page">
+      <section class="legal-hero">
+        <div class="container">
+          <p class="eyebrow">Legal</p>
+          <h1>Legal Notice (Impressum)</h1>
+          <p>Information according to Section 5 TMG.</p>
+        </div>
+      </section>
+
+      <section class="legal-content">
+        <div class="container">
+          <article class="legal-card">
+            <h2>Information according to Section 5 TMG</h2>
+            <p>
+              Sebastian Faber<br />
+              Freiherr-vom-Stein Straße 386b<br />
+              45133 Essen<br />
+              Germany
+            </p>
+
+            <h2>Contact</h2>
+            <p>
+              E-Mail: fabersebastian@proton.me
+            </p>
+
+            <h2>Person responsible for editorial content</h2>
+            <p>
+              Sebastian Faber<br />
+              Freiherr-vom-Stein Straße 386b<br />
+              45133 Essen
+            </p>
+
+            <h2>EU dispute resolution</h2>
+            <p>
+              The European Commission provides a platform for online dispute resolution (ODR):
+              <a href="https://ec.europa.eu/consumers/odr/">https://ec.europa.eu/consumers/odr/</a>
+            </p>
+
+            <h2>Consumer dispute resolution / universal arbitration board</h2>
+            <p>
+              We are neither willing nor obliged to participate in dispute resolution proceedings
+              before a consumer arbitration board.
+            </p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
+</html>

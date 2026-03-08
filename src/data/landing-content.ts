@@ -1,5 +1,5 @@
 export const site = {
-  title: "Seba",
+  title: "SF",
   subtitle:
     "Essays on technology, Platonism, electronic music and the architecture of software.",
 };

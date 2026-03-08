@@ -4,9 +4,11 @@ import BlogNavigation from '../../components/landing/BlogNavigation.astro';
 import Footer from '../../components/landing/Footer.astro';
 import '../../styles/landing.css';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
-import { allBlogPosts } from '../../data/blog-posts';
+import { getCollection } from 'astro:content';
 
-const posts = [...allBlogPosts];
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
 ---
 
 <!doctype html>
@@ -91,10 +93,16 @@ const posts = [...allBlogPosts];
 					{
 						posts.map((post) => (
 							<li>
-								<a href={`/blog/${post.slug}/`}>
-									<img width={720} height={360} src={post.imageUrl} alt={post.title} />
-									<h4 class="title">{post.title}</h4>
-									<p class="date">{post.date}</p>
+								<a href={`/blog/${post.id}/`}>
+									<img width={720} height={360} src={post.data.heroImage} alt={post.data.title} />
+									<h4 class="title">{post.data.title}</h4>
+									<p class="date">
+										{post.data.pubDate.toLocaleDateString('en-US', {
+											month: 'long',
+											day: 'numeric',
+											year: 'numeric',
+										})}
+									</p>
 								</a>
 							</li>
 						))

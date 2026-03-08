@@ -8,6 +8,25 @@ import About from '../components/landing/About.astro';
 import Footer from '../components/landing/Footer.astro';
 import '../styles/landing.css';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+
+const latestPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3)
+  .map((post) => ({
+    id: post.id,
+    title: post.data.title,
+    excerpt: post.data.description,
+    category: post.data.category ?? 'Essay',
+    date: post.data.pubDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    }),
+    readTime: post.data.readTime ?? '5 min',
+    imageUrl: post.data.heroImage,
+    href: `/blog/${post.id}/`,
+  }));
 ---
 
 <!doctype html>
@@ -20,7 +39,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
     <main>
       <Hero />
       <FeaturedProjects />
-      <LatestPosts />
+      <LatestPosts posts={latestPosts} />
       <About />
     </main>
     <Footer />

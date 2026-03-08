@@ -39,45 +39,6 @@ export const projects = [
   },
 ] as const;
 
-export const posts = [
-  {
-    id: "forms-platonism",
-    title: "Forms and Functions: A Platonist Approach to Software Architecture",
-    excerpt:
-      "How Plato's theory of Forms can frame abstraction and software design decisions in modern systems.",
-    category: "Philosophy",
-    date: "March 2, 2026",
-    readTime: "8 min",
-    imageUrl:
-      "https://images.unsplash.com/photo-1765809185515-da05f5fb02ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    href: "/blog/forms-platonism/",
-  },
-  {
-    id: "reactive-systems",
-    title: "The Architecture of Reactive Systems",
-    excerpt:
-      "Building resilient systems that remain responsive under failure through deliberate structure.",
-    category: "Technology",
-    date: "February 24, 2026",
-    readTime: "12 min",
-    imageUrl:
-      "https://images.unsplash.com/photo-1772050137322-f9dec2997d18?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    href: "/blog/reactive-systems/",
-  },
-  {
-    id: "symmetry-structure",
-    title: "Symmetry, Structure, and the Beauty of Well-Designed Systems",
-    excerpt:
-      "Why elegance in engineering matters beyond functionality and how structural symmetry improves clarity.",
-    category: "Essays",
-    date: "February 15, 2026",
-    readTime: "6 min",
-    imageUrl:
-      "https://images.unsplash.com/photo-1750456551232-46de16bbe54c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080",
-    href: "/blog/symmetry-structure/",
-  },
-] as const;
-
 export const footerLinks = {
   Navigate: navLinks.filter((link) => link.href !== "#contact"),
   Connect: [
